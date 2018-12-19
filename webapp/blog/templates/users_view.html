@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}View{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
+{% block content %}
+    <h2>Users:</h2>
+    	{% for user in users %}
+    		{{ user.name }} {{user.surname }}<br>
+    	{% endfor %}
+
+    <div class="favorites">
+	    {% if favorites.saved_author.all %}
+			<label>Saved:</label><br/>
+			{% for article in favorites.saved_author.all %}
+				<p>{{ favorites.author }}<br>
+			   <!-- {{ comment.text }}</p> -->
+			{% endfor %}
+	{% endif %}
+	</div>
+{% endblock %}

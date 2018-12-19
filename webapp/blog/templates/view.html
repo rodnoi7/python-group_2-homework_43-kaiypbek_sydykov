@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}View{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
+{% block content %}
+    <h2>Title: {{ article.title }}<br>
+        Author: {{ article.author }}</h2>
+    <p>Text: {{ article.text }}</p>
+    <div class="comment">
+	    {% if article.commented_article.all %}
+			<label>Comments:</label><br/>
+			{% for comment in article.commented_article.all %}
+			<p>{{ comment.author }}<br>
+			   {{ comment.text }}</p>
+			{% endfor %}
+	{% endif %}
+	</div>
+	<div class='marks'>
+		{% if article.to_article.all %}
+			<label>Marks:</label><br/>
+			{% for mark in article.to_article.all %}
+			<p>{{ mark.user }}<br>
+			   {{ mark.mark }}</p>
+			{% endfor %}
+		{% endif %}
+	</div>
+{% endblock %}

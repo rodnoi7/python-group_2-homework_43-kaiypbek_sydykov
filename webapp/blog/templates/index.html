@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Main{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
+{% block content %}
+    <h1>Articles</h1>
+    {% for article in articles %}
+    	<div class="article">
+	        <h2><a href="{% url 'article' article.pk%}">{{ article.title }}</a>({{ article.author }})</h2>
+        </div>
+    {% endfor %}
+{% endblock %}
+<p>  </p>
