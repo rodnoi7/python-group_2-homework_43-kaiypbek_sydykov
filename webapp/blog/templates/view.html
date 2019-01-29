@@ -1,30 +1,68 @@
 {% extends "base.html" %}
 
-{% block title %}View{% endblock %}
+{% block title %}Article view{% endblock %}
 
 {% block menu %}
+
 {% endblock %}
 
 {% block content %}
-    <h2>Title: {{ article.title }}<br>
-        Author: {{ article.author }}</h2>
-    <p>Text: {{ article.text }}</p>
-    <div class="comment">
-	    {% if article.commented_article.all %}
-			<label>Comments:</label><br/>
+    <div class="alert alert-info mt-3" role="alert">
+		<h2>Title: {{ article.title }}<br>
+        Author: {{ article.author }}</h2>	
+        Text:<br>
+    	<div class="alert alert-secondary d-inline-flex p-2 bd-highlight border border-dark" role="alert">
+    		<p>{{ article.text }}</p>
+		</div>
+		<div class='change_article'>
+		    <a href="{% url 'blog:change_article' article.pk %}" class="card-link btn btn-info">Change article</a>
+		</div>
+		<div class='delete_article'>
+		    <a href="{% url 'blog:article_delete' article.pk %}" class="card-link btn btn-info">Delete article</a>
+		</div>
+    </div>
+
+<div class="alert alert-secondary" role="alert">
+	<div class="comment_list">
+		<label class='font-weight-bold ml-3'><h3>Comments</h3></label><br/>
+    	{% if article.commented_article.all %}
 			{% for comment in article.commented_article.all %}
-			<p>{{ comment.author }}<br>
-			   {{ comment.text }}</p>
+				<div class='comment border border-primary'>
+					{% if comment.parrent_comment %}
+					<dir class='answer_comment'>
+						<p>Answer to:</p>
+						{{ comment.parrent_comment.author }}: {{ comment.parrent_comment.text}}<i class="fas fa-reply ml-2"></i>
+					</dir>
+					{% else %}{% endif %}
+					<div class="card rounded">
+					  	<div class="card-body rounded">
+					    	<h5 class="card-title font-weight-bold">{{ comment.author }}</h5>
+					    	<p class="card-text">"{{ comment.text }}"</p>
+		        			<a href="{% url 'blog:create_comment_answer' article.pk comment.pk %}" class="card-link btn btn-info">Reply</a>
+		        			<a href="{% url 'blog:change_comment_answer' article.pk comment.pk %}" class="card-link btn btn-info">Change comment</a>
+					  	</div>
+					</div>
+	        	</div><br>
 			{% endfor %}
-	{% endif %}
+		{% else %}<p>No comment</p>{% endif %}
+	    <a href="{% url 'blog:create_comment' article.pk %}"><button type="button" class="btn btn-info mb-3">Add comment</button></a>
 	</div>
-	<div class='marks'>
-		{% if article.to_article.all %}
-			<label>Marks:</label><br/>
+</div>
+{% if article.to_article.all %}
+	<div class="alert alert-secondary" role="alert">
+		<div class="mark_list">
+			<label class='font-weight-bold ml-3'><h3>Marks</h3></label><br/>
 			{% for mark in article.to_article.all %}
-			<p>{{ mark.user }}<br>
-			   {{ mark.mark }}</p>
+				<div class="card mb-2">
+  					<div class="card-header">
+						{{ mark.user }}
+  					</div>
+  					<div class="card-body">
+		   				<h5 class="card-title">{{ mark.mark }}</h5>
+		   			</div>
+		   		</div>
 			{% endfor %}
-		{% endif %}
+  		</div>
 	</div>
+{% endif %}
 {% endblock %}

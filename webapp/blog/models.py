@@ -9,14 +9,15 @@ class User(models.Model):
 	password = models.CharField(max_length=100, null=False, blank=False, verbose_name='password')
 	email = models.CharField(max_length=200, null=False, blank=False, verbose_name='email')
 	about_yourself = models.TextField(max_length=1000, null=True, blank=False, verbose_name='About yourself')
-	favorites = models.ManyToManyField("Article", through='Favorites', through_fields=('user', 'article'), related_name='favorite_articles', verbose_name='Favorites', null=True, blank=False)
+	favorites = models.ManyToManyField("Article", through='Favorites', through_fields=('user', 'article'), related_name='favorite_articles', verbose_name='Favorites', blank=False)
+
 
 	def __str__(self):
 		return "%s %s" % (self.surname, self.name)
 
 
 class Article(models.Model):
-	author = models.ForeignKey('User', on_delete=models.PROTECT, related_name='articles_author', verbose_name='Author')
+	author = models.ForeignKey('User', on_delete=models.CASCADE, related_name='articles_author', verbose_name='Author')
 	title = models.CharField(max_length=200, null=False, blank=False, verbose_name='Title')
 	text = models.TextField(max_length=3000, null=False, blank=False, verbose_name='Text')
 
@@ -25,10 +26,13 @@ class Article(models.Model):
 
 
 class Comment(models.Model):
-	author = models.ForeignKey(User, on_delete=models.PROTECT, related_name='comment_author', verbose_name='Author')
-	article = models.ManyToManyField(Article, related_name='commented_article', verbose_name='Article')
+	author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_author', verbose_name='Author')
+	article = models.ForeignKey(Article, related_name='commented_article', on_delete=models.CASCADE, verbose_name='Article')
 	text = models.CharField(max_length=3000, null=False, blank=True, verbose_name='Comment')
+	parrent_comment = models.ForeignKey('Comment', on_delete=models.CASCADE, related_name='answer', verbose_name='Answer', blank=False, null=True)
 
+	def __str__(self):
+		return '%s - %s(%s)' % (self.author, self.article.title, self.text)
 
 
 class Mark(models.Model):
@@ -46,11 +50,11 @@ class Mark(models.Model):
 		(MARK_FINE, 'Fine'),
 	)
 
-	user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='mark_author', verbose_name='Author', null=True)
-	article = models.ForeignKey(Article, on_delete=models.PROTECT, related_name='to_article', verbose_name='Article')
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mark_author', verbose_name='Author', null=True)
+	article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='to_article', verbose_name='Article')
 	mark = models.CharField(max_length=20, choices=MARK_CHOICES, verbose_name="Mark")
 
 
 class Favorites(models.Model):
-	user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='saved_author', verbose_name='Author')
-	article = models.ForeignKey(Article, on_delete=models.PROTECT, related_name='saved_article', verbose_name='Article')
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='saved_author', verbose_name='Author')
+	article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='saved_article', verbose_name='Article')
