@@ -13,6 +13,19 @@ class ArticlesListView(ListView, FormView):
     form_class = SearchProjectForm
 
 
+    # def dispatch(self, request, *args, **kwargs):
+    # if not request.user.is_authenticated:
+    #     return redirect('%s' % reverse('webauth:login'))
+    # return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        project_name = self.request.GET.get('project_name')
+        if not project_name:
+            return Article.objects.all()
+        else:
+            return Article.objects.filter(title__icontains=project_name)
+
+
 class ArticleDetailView(DetailView):
     model = Article
     template_name = 'view.html'

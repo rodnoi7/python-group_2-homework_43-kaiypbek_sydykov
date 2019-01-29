@@ -1,0 +1,10 @@
+<ul class="navbar-nav">
+    {% if user.is_authenticated %}
+        <li class="nav-item navbar-text">Привет, {{ user.username }}!</li>
+        <li class="nav-item"><a href="{% url 'webauth:logout' %}" class="nav-link">Выход</a></li>
+        <li class="nav-item"><a href="{% url 'blog:index' %}" class="nav-link">На главную</a></li>
+        {% block menu %}{% endblock %}
+    {% else %}
+        <li class="nav-item"><a href="{% url 'webauth:login' %}" class="nav-link">Вход</a></li>
+    {% endif %}
+</ul>
