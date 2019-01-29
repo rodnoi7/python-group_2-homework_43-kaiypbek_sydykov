@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Enter your comment{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="alert alert-primary mt-4 font-weight-bold d-inline-flex pl-5 pr-5" role="alert">
+    	Add comment
+    </div>
+</div>
+    <form method="post" action='{% url "blog:create_comment" article_pk %}'>
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Save" class='save' title="Сохранить"/>
+    </form>
+{% endblock %}
+

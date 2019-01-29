@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Saved{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
+{% block content %}
+{% if user.favorites.all %}
+	 	<div class="card mt-5" style="width: 50rem;">
+	  		<div class="card-header">
+	 			<p>Saved articles by this user</p>
+	  		</div>
+	  		<ul class="list-group list-group-flush">
+		  		{% for article in user.favorites.all %}
+		 				<li class="list-group-item border-bottom">
+		 					<a href="{% url 'blog:user' user.pk %}">
+		 						Author: {{ article.author.surname }} {{ article.author.name }}<br>
+		 					</a>
+		 					<a href="{% url 'blog:article' article.pk %}">
+		 						Ttitle: {{ article.title }}
+		 					</a>
+		 				</li>
+		 		{% endfor %}
+		  	</ul>
+		</div>
+{% else %}
+<div class="alert alert-info mt-2" role="alert" style="width: 50rem;">
+	This user has not saved any articles{% endif %}
+</div>
+{% endblock %}

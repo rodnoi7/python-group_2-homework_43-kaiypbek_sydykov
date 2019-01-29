@@ -3,25 +3,7 @@
 {% block title %}Main{% endblock %}
 
 {% block menu %}
-<div class='card-body'>
 		<a href="{% url 'blog:create_blog' %}" title="create new article"><button type='button' class='btn btn-primary font-weight-bold'>Add new article</button></a>
-	</div>
-<ul class="navbar-nav">
-    {% if user.is_authenticated %}
-        <li class="nav-item navbar-text">Привет, {{ user.username }}!</li>
-        <li class="nav-item"><a href="{% url 'webauth:logout' %}" class="nav-link d-inline-block">Выход</a></li>
-        
-    {% else %}
-        <li class="nav-item"><a href="{% url 'webauth:login' %}" class="nav-link d-inline-block">Вход</a></li>
-    {% endif %}
-</ul>
-  <div class="mt-3 d-inline-block">
-        <form action="{% url 'blog:index' %}" method="GET">
-            {% csrf_token %}
-            {{ form.project_name.label }}: {{ form.project_name }}
-            <button class="btn btn-primary" type="submit">Искать</button>
-        </form>
-    </div>    
 {% endblock %}
 
 {% block content %}

@@ -14,11 +14,14 @@
     	<div class="alert alert-secondary d-inline-flex p-2 bd-highlight border border-dark" role="alert">
     		<p>{{ article.text }}</p>
 		</div>
-		<div class='change_article'>
+		<div>
 		    <a href="{% url 'blog:change_article' article.pk %}" class="card-link btn btn-info">Change article</a>
 		</div>
-		<div class='delete_article'>
+		<div class='mt-1'>
 		    <a href="{% url 'blog:article_delete' article.pk %}" class="card-link btn btn-info">Delete article</a>
+		</div>
+		<div class='mt-1'>
+		    <a href="{% url 'blog:add_favorite' article.pk %}" class="card-link btn btn-info">Save article</a>
 		</div>
     </div>
 

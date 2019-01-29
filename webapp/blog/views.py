@@ -13,19 +13,6 @@ class ArticlesListView(ListView, FormView):
     form_class = SearchProjectForm
 
 
-    # def dispatch(self, request, *args, **kwargs):
-    # if not request.user.is_authenticated:
-    #     return redirect('%s' % reverse('webauth:login'))
-    # return super().dispatch(request, *args, **kwargs)
-
-    def get_queryset(self):
-        project_name = self.request.GET.get('project_name')
-        if not project_name:
-            return Article.objects.all()
-        else:
-            return Article.objects.filter(title__icontains=project_name)
-
-
 class ArticleDetailView(DetailView):
     model = Article
     template_name = 'view.html'
@@ -140,16 +127,19 @@ def change_comment(request, article_pk, comment_pk):
         return redirect('blog:article', article_pk)
 
 
-def add_favorite(request, user_pk):
+def add_favorite(request, article_pk):
     if request.method == 'GET':
-        articles = Article.objects.filter(~Q(author=user_pk))
-        user = User.objects.get(pk=user_pk)
-        article = articles.filter(~Q(pk=user.favorites))
-        user = User.objects.get(pk=user_pk)
+        article = Article.objects.get(pk=article_pk)
+        user = User.objects.all()
         context = {
-            'articles': article,
-            'user': user,
+            'article': article,
+            'users': user,
         }
         return render(request, 'add_favorites.html', context)        
     elif request.method == 'POST':
-        pass
+        print(request.POST.get('user'))
+        user = User.objects.get(pk=(request.POST.get('user')))
+        article = Article.objects.get(pk=article_pk)
+        favorite = Favorites.objects.create(user=user, article=article)
+        favorite.save()
+        return redirect('blog:article', article_pk)

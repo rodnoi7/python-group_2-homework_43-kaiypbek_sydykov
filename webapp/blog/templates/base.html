@@ -13,13 +13,11 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </head>
 <body>    
+    <nav class="navbar navbar-dark bg-dark d-flex flex-row">
+            <a href="{% url 'blog:index' %}" title="Main"><button type='button' class='btn btn-primary font-weight-bold'>Main</button></a>
+            <a href="{% url 'blog:users' %}" title="Users"><button type='button' class='btn btn-primary font-weight-bold'>Users</button></a>
+    </nav>
     <div class='container pt-3'>
-            <div class='d-inline-block'>
-                <a href="{% url 'blog:index' %}" title="Main"><button type='button' class='btn btn-primary font-weight-bold'>Main</button></a>
-            </div>
-            <div class='d-inline-block ml-4'>
-                <a href="{% url 'blog:users' %}" title="Users"><button type='button' class='btn btn-primary font-weight-bold'>Users</button></a>
-            </div>
         {% block menu %}
         {% endblock %}
         {% block content %}{% endblock %}

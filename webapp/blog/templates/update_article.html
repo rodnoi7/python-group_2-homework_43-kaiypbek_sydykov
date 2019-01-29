@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Update{% endblock %}
+{% block content %}
+    <h1>Change article</h1>
+    <form action="{% url 'blog:change_article' form.instance.pk %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn, btn-primary">Save</button>
+    </form>
+{% endblock %}

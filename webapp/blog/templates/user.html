@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
+{% block content %}
+    <h2 class='mt-3 mb-3'>User's data</h2>
+ 		<div class='border border-secondary bg-info p-3 text-white'>Full name: {{ user.name }} {{user.surname }}</div><br>
+ 		<div class='border border-secondary bg-info p-3 text-white'>Login: {{ user.login }}</div><br>
+ 		<div class='border border-secondary bg-info p-3 text-white'>Email: {{ user.email }}</div><br>
+ 		<div class='border border-secondary bg-info p-3 text-white'>About yourself: {{ user.about_yourself }}</div><br>
+
+{% if user.articles_author.all %}
+	 	<div class="card mb-4" style="width: 18rem;">
+	  		<div class="card-header">
+	 			<p>Articles by this user</p>
+	  		</div>
+	  		<ul class="list-group list-group-flush">
+		  		{% for article in user.articles_author.all %}
+		 			<li class="list-group-item"><a href="{% url 'blog:article' article.pk%}">{{ article.title }}</a></li>
+		 		{% endfor %}
+		  	</ul>
+		</div>
+{% else %}{% endif %}
+    <div class='mb-4'>
+    	<a href="{% url 'blog:favorite' user.pk %}"><button type="button" class="btn btn-dark font-weight-bold">Saved</button></a>
+    </div>
+{% endblock %}

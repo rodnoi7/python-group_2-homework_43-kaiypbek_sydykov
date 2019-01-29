@@ -1,0 +1,19 @@
+{% csrf_token %}
+<div class="author">
+	<label>Author:</label><br/>
+	<input type="text" name="author" value="{{ article.author }}"/><br/>
+</div>
+
+<div class="mail">
+<label>Title:</label><br/>
+<input type="text" name="title" value="{{ article.text }}"/><br/>
+</div>
+
+<div class="text">
+<label>Text:</label><br/>
+<textarea name="text">{{ article.text }}</textarea>
+</div>
+<br/>
+<br/>
+
+<input type="submit" value="Сохранить" class='save' title="Сохранить"/>

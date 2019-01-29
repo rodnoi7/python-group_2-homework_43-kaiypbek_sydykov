@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Enter your answer{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
+{% block content %}
+    <h1>Create answer to comment</h1>
+
+    <form method="post">
+		{% csrf_token %}
+		<h5>
+			<div>
+				Answer to comment:
+			</div>
+		</h5> 
+			author: {{ parrent_comment.author  }}<br>
+			text: "{{ parrent_comment.text }}"<br>
+		{{ form.as_p }}
+		<input type="submit" class='save' title="Save"/>
+    </form>
+{% endblock %}
+
